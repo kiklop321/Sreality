@@ -1,0 +1,42 @@
+
+version: '3'
+networks:
+    backend:
+services:
+  webdriver:
+    build: ./
+    networks:
+      - backend
+    command: python seznamka.py
+    volumes:
+      - .:/app
+    environment:
+      - DISPLAY=:99
+      - DOCKER=1
+    depends_on:
+      - selenium-hub
+      - postgres
+    ports:
+      - "8000:8000"
+  python:
+    image: python:3.9
+    volumes:
+      - .:/app
+  selenium-hub:
+    image: selenium/hub
+    networks:
+      - backend
+    ports:
+      - 4444:4444
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    networks:
+      - backend
+    environment:
+      - bind-address = 0.0.0.0
+      - POSTGRES_USER = postgres
+      - POSTGRES_PASSWORD=4029862505
+      - POSTGRES_DB=demo_database
+    volumes:
+      - "C:/docker-db-volume:/var/lib/postgresql/data"

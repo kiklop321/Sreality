@@ -1,0 +1,5 @@
+selenium
+scrapy
+psycopg2
+pyvirtualdisplay
+webdriver_manager
